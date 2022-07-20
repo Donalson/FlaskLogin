@@ -1,9 +1,13 @@
 #Importaciones de paquetes/librerias y de otros archivos
 from flask import Flask, render_template, request, redirect, url_for
+from flask_mysqldb import MySQL
 from config import config
 
 #Se instancia la aplicacion de flask
 app = Flask(__name__)
+
+#Conexion a base de datos
+db = MySQL(app)
 
 #Rutas
 @app.route("/")
