@@ -1,0 +1,12 @@
+{% extends './layaout.html' %}
+
+{% block titulo %}Error 404{% endblock %}
+
+{% block body %}
+<div class="mt-5 pt-5">
+    <img src="https://www3.animeflv.net/assets/animeflv/img/cnt/animeflv-404.png" alt="">
+    <h1>Ooops!!!...</h1>
+    <div>Parece que la pagina no existe.</div>
+    <a class="mt-5 btn btn-info" href="{{ url_for('home') }}">REGRESAR AL INICIO</a>
+</div>
+{% endblock %}

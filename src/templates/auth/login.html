@@ -40,8 +40,48 @@
                 <input type="checkbox" value="remember-me"> Recordar Sesion
             </label>
         </div>
-        <button class="w-100 btn btn-lg btn-success" type="submit">Iniciar Sesion</button>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="w-100 btn btn-lg btn-success" type="submit">Iniciar Sesion</button><br><br>
+        <!-- Button trigger modal -->
+        <button type="button" class="w-100 btn btn-lg btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Registrarse
+        </button>
         <p class="mt-5 mb-3 text-muted">&copy; 2017–2022</p>
     </form>
 </main>
+
+  <!-- Formulario de Registro -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Formulario de Registro</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form action="">
+                <div class="mb-3"><label class="form-label">Nombre Usuario</label><input type="text" maxlength="20" class="form-control" name="usuarior"></div>
+                <div class="mb-3"><label class="form-label">Contraseña</label><input type="password" maxlength="30" class="form-control" name="contraseñar"></div>
+                <div class="mb-3"><label class="form-label">Nombre</label><input type="text" maxlength="30" class="form-control" name="nombrer"></div>
+                <div class="mb-3"><label class="form-label">Apellido</label><input type="text" maxlength="30" class="form-control" name="apellidor"></div>
+                <div class="mb-3"><label class="form-label">Fecha de Nacimiento</label><input type="date" class="form-control" name="fnacimiento"></div>
+                <div class="mb-3">
+                    <label class="form-label">Genero</label>
+                    <select name="genero" class="form-select">
+                        <option value="N" selected>Prefiero no decirlo</option>
+                        <option value="H">Hombre</option>
+                        <option value="M">Mujue</option>
+                    </select>
+                </div>
+                <div class="mb-3"><label class="form-label">Telefono</label><input type="text" maxlength="15" class="form-control" name="telefonor"></div>
+                <div class="mb-3"><label class="form-label">Foto</label><input class="form-control" type="file" name="foto" accept="image/*"></div>
+        </div>
+        <div class="modal-footer">          
+          <button type="button" class="btn btn-success">Registrars</button>
+        </form>
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

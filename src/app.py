@@ -1,6 +1,7 @@
 #Importaciones de paquetes/librerias y de otros archivos
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
+from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required
 from config import config
 
@@ -12,6 +13,7 @@ from models.ModelUsuario import Usuario
 
 #Se instancia la aplicacion de flask
 app = Flask(__name__)
+csrf = CSRFProtect()
 
 #Conexion a base de datos y manejo de sesiones
 db = MySQL(app)
@@ -19,7 +21,7 @@ login_manager_app = LoginManager(app)
 
 @login_manager_app.user_loader
 def load_user(id):
-    return ModelUsuario
+    return ModelUsuario.get_by_id(db,id)
 
 #Rutas
 @app.route("/")
@@ -47,16 +49,38 @@ def login():
     else:
         return render_template('auth/login.html')
 
+@app.route('/registrar')
+def registrar():
+    if request.method == 'POST':
+        usuario = {'usuario':request.form['usaurior'], 'contraseña':request.form['contraseñar'], 'nombre':request.form['nombrer'], 'apellido':request.form['apellidor'], 'fnacimiento':request.form['fnacimiento'], 'genero':request.form['genero'], 'telefono':request.form['telefonor']}
+        ModelUsuario.registrar(db,usuario)
+        
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
 @app.route('/home')
+@login_required
 def home():
     return render_template('home.html')
+
+@app.route('/perfil')
+@login_required
+def perfil():
+    return render_template('perfil.html')
+
+def status_401(error):
+    return redirect(url_for('login'))
+
+def status_404(error):
+    return render_template('404.html')
 
 #Se inicializa la aplicacion de flask y se le pasan algunos parametros
 if __name__ == '__main__':
     app.config.from_object(config['development'])
+    csrf.init_app(app)
+    app.register_error_handler(401,status_401)
+    app.register_error_handler(404,status_404)
     app.run()
