@@ -22,5 +22,5 @@ class Usuario(UserMixin):
         return check_password_hash(contra_hasheada,contraseña)
 
     @classmethod
-    def cifrar(contra):
+    def cifrar(self, contra):
         return generate_password_hash(contra)

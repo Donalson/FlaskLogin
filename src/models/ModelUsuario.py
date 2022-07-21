@@ -39,9 +39,14 @@ class ModelUsuario():
             sql = """
             INSERT INTO `user`(`id`, `usuario`, `contraseña`, `Nombre`, `Apellido`, `FNacimiento`, `Genero`, `Telefono`, `Foto`, `FC`, `FE`)
             VALUES ('NULL','{}','{}','{}','{}','{}','{}','{}','NULL', current_timestamp(),'NULL')
-            """.format(usuario['nombre'], Usuario.cifrar(usuario['contraseña']), usuario['nombre'], usuario['apellido'], usuario['fnacimiento'], usuario['genero', ])
-            print(cursor.execute(sql))
-            print(cursor.lastrowid)
+            """.format(usuario['usuario'], Usuario.cifrar(usuario['contraseña']), usuario['nombre'], usuario['apellido'], usuario['fnacimiento'], usuario['genero'], usuario['telefono'])
+            cursor.execute(sql)
+            id = cursor.lastrowid
+            print(id)
+            if id:
+                return id
+            else:
+                return None
             
         except Exception as ex:
             raise Exception(ex)

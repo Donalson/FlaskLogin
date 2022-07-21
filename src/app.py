@@ -49,11 +49,16 @@ def login():
     else:
         return render_template('auth/login.html')
 
-@app.route('/registrar')
+@app.route('/registrar', methods=['POST'])
 def registrar():
     if request.method == 'POST':
-        usuario = {'usuario':request.form['usaurior'], 'contraseña':request.form['contraseñar'], 'nombre':request.form['nombrer'], 'apellido':request.form['apellidor'], 'fnacimiento':request.form['fnacimiento'], 'genero':request.form['genero'], 'telefono':request.form['telefonor']}
-        ModelUsuario.registrar(db,usuario)
+        usuario = {'usuario':request.form['usuarior'], 'contraseña':request.form['contraseñar'], 'nombre':request.form['nombrer'], 'apellido':request.form['apellidor'], 'fnacimiento':request.form['fnacimiento'], 'genero':request.form['genero'], 'telefono':request.form['telefonor']}
+        user = ModelUsuario.registrar(db,usuario)
+        print(user)
+        return redirect(url_for('404'))
+    else:
+        flash('Algo salio mal con el registro')
+        return render_template('auth/login.html')
         
 
 @app.route('/logout')
