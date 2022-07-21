@@ -31,7 +31,8 @@ def login():
     if request.method == 'POST':
         #print(request.form['usuario'])
         #print(request.form['contraseña'])
-        usuario = Usuario(0, request.form['usuario'], request.form['contraseña'], 'Donalson Static', None, None, None, None, None, None, None,)
+        #usuario = Usuario(0, request.form['usuario'], request.form['contraseña'], 'Donalson Static', None, None, None, None, None, None, None,)
+        usuario = {'usuario': request.form['usuario'], 'contraseña': request.form['contraseña']}
         logged_user = ModelUsuario.login(db, usuario)
         if logged_user != None:
             if logged_user.contraseña:
