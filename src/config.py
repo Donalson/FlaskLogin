@@ -1,5 +1,5 @@
 class Config():
-    SECRETE_KEY = 'Llaveultrasecretisima'
+    SECRET_KEY = 'sdfkaj;lsdjf;ahs;lkh;'
 
 class DevelopmentConfig(Config):
     DEBUG = True

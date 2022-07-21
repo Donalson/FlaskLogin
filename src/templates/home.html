@@ -1,0 +1,8 @@
+{% extends './layaout.html' %}
+
+{% block titulo %}Inicio{% endblock %}
+
+{% block body %}
+<h1>Bienvenido {{ current_user.nombre }} {{ current_user.apellido }}</h1>
+<a class="btn btn-warning" href="{{ url_for('logout') }}">Cerrar Sesion</a>
+{% endblock %}
