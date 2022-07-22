@@ -40,13 +40,24 @@ class ModelUsuario():
             row = cursor.fetchone()
             if row == None:
                 query = "INSERT INTO user(`id`, `usuario`, `contraseña`, `Nombre`, `Apellido`, `FNacimiento`, `Genero`, `Telefono`, `Foto`, `FC`, `FE`) VALUES (NULL,'{}','{}','{}','{}','{}','{}','{}','NULL', current_timestamp(),NULL) ".format(usuario['usuario'], Usuario.cifrar(usuario['contraseña']), usuario['nombre'], usuario['apellido'], usuario['fnacimiento'], usuario['genero'], usuario['telefono'])
-                print(query)
                 cursor.execute(query)
+                db.connection.commit()
                 if isinstance(cursor.lastrowid, int):
                     return ModelUsuario.get_by_id(db, cursor.lastrowid)
                 else:
                     return None
             else:
                 return False
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def editar(self,db, usuario):
+        try:
+            cursor = db.connection.cursor()
+            query = "UPDATE user SET Nombre='{}', Apellido='{}', FNacimiento='{}', Telefono='{}', FE = current_timestamp()  WHERE id = {}".format(usuario['nombre'], usuario['apellido'], usuario['fnacimiento'], usuario['telefono'], usuario['id'])
+            cursor.execute(query)
+            db.connection.commit()
+            return ModelUsuario.get_by_id(db, usuario['id'])
         except Exception as ex:
             raise Exception(ex)

@@ -4,5 +4,26 @@
 
 {% block body %}
 <h1>Bienvenido {{ current_user.nombre }} {{ current_user.apellido }}</h1>
+<br><br><br>
+<div class="container">
+    <h1>Perfil de {{ current_user.usuario }}</h1>
+    <ul>
+        <li>Nombre: {{ current_user.nombre }}</li>
+        <li>Apellido: {{ current_user.apellido }}</li>
+        <li>Fecha de Nacimiento: {{ current_user.fnacimiento }}</li>
+        {% if current_user.genero == "H" %}
+            <li>Genero: Hombre</li>
+        {% elif current_user.genero == "M" %}
+            <li>Genero: Mujer</li>
+        {% endif %}
+        <li>{{ current_user.telefono }}</li>
+        {% if current_user.foto != NULL %}
+            <li>
+                <img src="{{ url_for('static', filename='img/Donal.png') }}" class="w-25 img-fluid" alt="">
+            </li>
+        {% endif %}
+
+    </ul>
+</div>
 <a class="btn btn-warning" href="{{ url_for('logout') }}">Cerrar Sesion</a>
 {% endblock %}

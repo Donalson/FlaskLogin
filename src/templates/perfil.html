@@ -9,23 +9,22 @@
 {% block body %}
 <br><br><br>
 <div class="container">
-    <h1>Perfil de {{ current_user.usuario }}</h1>
-    <ul>
-        <li>Nombre: {{ current_user.nombre }}</li>
-        <li>Apellido: {{ current_user.apellido }}</li>
-        <li>Fecha de Nacimiento: {{ current_user.fnacimiento }}</li>
-        {% if current_user.genero == "H" %}
-            <li>Genero: Hombre</li>
-        {% elif current_user.genero == "M" %}
-            <li>Genero: Mujes</li>
-        {% endif %}
-        <li>{{ current_user.telefono }}</li>
-        {% if current_user.foto != NULL %}
-            <li>
-                <img src="{{ url_for('static', filename='img/Donal.png') }}" class="w-25 img-fluid" alt="">
-            </li>
-        {% endif %}
-
-    </ul>
+    <h1>Formulario de edicion</h1>
+    <form action="/editar" method="POST">
+        <div class="mb-3"><label class="form-label">ID</label><input type="text" maxlength="20" class="form-control" name="id" readonly value="{{ current_user.id }}"></div>
+        <div class="mb-3"><label class="form-label">Nombre Usuario</label><input type="text" maxlength="20" class="form-control" name="usuarior" readonly value="{{ current_user.usuario }}"></div>
+        <div class="mb-3"><label class="form-label">Nombre</label><input type="text" maxlength="30" class="form-control" name="nombrer" value="{{ current_user.nombre }}" required></div>
+        <div class="mb-3"><label class="form-label">Apellido</label><input type="text" maxlength="30" class="form-control" name="apellidor" value="{{ current_user.apellido }}" required></div>
+        <div class="mb-3"><label class="form-label">Fecha de Nacimiento</label><input type="date" class="form-control" name="fnacimiento" value="{{ current_user.fnacimiento }}" required></div>
+        <div class="mb-3">
+            <label class="form-label">Genero</label>
+            <select name="genero" class="form-select" disabled>
+                <option value="N" selected>{{ current_user.genero }}</option>
+            </select>
+        </div>
+        <div class="mb-3"><label class="form-label">Telefono</label><input type="text" maxlength="15" minlength="8" class="form-control" value="{{ current_user.telefono }}" name="telefonor"></div>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">   
+        <button type="submit" class="btn btn-success">Actualizar</button>
+    </form>
 </div>
 {% endblock %}

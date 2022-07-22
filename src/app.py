@@ -64,7 +64,14 @@ def registrar():
     else:
         flash('Algo malio sal con el registro')
         return render_template('auth/login.html')
-        
+
+@app.route('/editar', methods=['POST'])
+def editar():
+    if request.method == 'POST':
+        usuario = {'id':request.form['id'], 'nombre':request.form['nombrer'], 'apellido':request.form['apellidor'], 'fnacimiento':request.form['fnacimiento'], 'telefono':request.form['telefonor']}
+        editado = ModelUsuario.editar(db,usuario)
+        login_user(editado)
+        return redirect(url_for('home'))
 
 @app.route('/logout')
 def logout():
