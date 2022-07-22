@@ -31,8 +31,6 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        #print(request.form['usuario'])
-        #print(request.form['contraseña'])
         #usuario = Usuario(0, request.form['usuario'], request.form['contraseña'], 'Donalson Static', None, None, None, None, None, None, None,)
         usuario = {'usuario': request.form['usuario'], 'contraseña': request.form['contraseña']}
         logged_user = ModelUsuario.login(db, usuario)
@@ -54,10 +52,17 @@ def registrar():
     if request.method == 'POST':
         usuario = {'usuario':request.form['usuarior'], 'contraseña':request.form['contraseñar'], 'nombre':request.form['nombrer'], 'apellido':request.form['apellidor'], 'fnacimiento':request.form['fnacimiento'], 'genero':request.form['genero'], 'telefono':request.form['telefonor']}
         user = ModelUsuario.registrar(db,usuario)
-        print(user)
-        return redirect(url_for('404'))
+        if user == False:
+            flash('El usuario ya esta registrado')
+            return render_template('auth/login.html')
+        elif user != None:
+            login_user(user)
+            return redirect(url_for('home'))
+        else:
+            flash('Algo salio mal con el registro')
+            return render_template('auth/login.html')
     else:
-        flash('Algo salio mal con el registro')
+        flash('Algo malio sal con el registro')
         return render_template('auth/login.html')
         
 

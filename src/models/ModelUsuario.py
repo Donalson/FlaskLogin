@@ -36,17 +36,17 @@ class ModelUsuario():
     def registrar(self,db, usuario):
         try:
             cursor = db.connection.cursor()
-            sql = """
-            INSERT INTO `user`(`id`, `usuario`, `contraseña`, `Nombre`, `Apellido`, `FNacimiento`, `Genero`, `Telefono`, `Foto`, `FC`, `FE`)
-            VALUES ('NULL','{}','{}','{}','{}','{}','{}','{}','NULL', current_timestamp(),'NULL')
-            """.format(usuario['usuario'], Usuario.cifrar(usuario['contraseña']), usuario['nombre'], usuario['apellido'], usuario['fnacimiento'], usuario['genero'], usuario['telefono'])
-            cursor.execute(sql)
-            id = cursor.lastrowid
-            print(id)
-            if id:
-                return id
+            cursor.execute('SELECT id, usuario FROM user WHERE usuario = "{}"'.format(usuario['usuario']))
+            row = cursor.fetchone()
+            if row == None:
+                query = "INSERT INTO user(`id`, `usuario`, `contraseña`, `Nombre`, `Apellido`, `FNacimiento`, `Genero`, `Telefono`, `Foto`, `FC`, `FE`) VALUES (NULL,'{}','{}','{}','{}','{}','{}','{}','NULL', current_timestamp(),NULL) ".format(usuario['usuario'], Usuario.cifrar(usuario['contraseña']), usuario['nombre'], usuario['apellido'], usuario['fnacimiento'], usuario['genero'], usuario['telefono'])
+                print(query)
+                cursor.execute(query)
+                if isinstance(cursor.lastrowid, int):
+                    return ModelUsuario.get_by_id(db, cursor.lastrowid)
+                else:
+                    return None
             else:
-                return None
-            
+                return False
         except Exception as ex:
             raise Exception(ex)
